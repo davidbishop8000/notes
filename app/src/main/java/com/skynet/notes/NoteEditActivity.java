@@ -16,6 +16,12 @@ public class NoteEditActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
+        Bundle arguments = getIntent().getExtras();
+        String titleVal = arguments.get("title").toString();
+        final EditText editTitle = findViewById(R.id.editTitle);
+        if (!TextUtils.isEmpty(titleVal)){
+            editTitle.setText(titleVal);
+        }
         final Button backButton = findViewById(R.id.backButton);
         final Button saveButton = findViewById(R.id.saveButton);
         backButton.setOnClickListener(this);
@@ -24,7 +30,7 @@ public class NoteEditActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v){
         Intent intent = new Intent(NoteEditActivity.this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         switch (v.getId()) {
             case R.id.backButton:
                 startActivity(intent);

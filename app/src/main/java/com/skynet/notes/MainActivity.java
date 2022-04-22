@@ -29,8 +29,7 @@ public class MainActivity extends AppCompatActivity {
         notes.add(new Note ("My second note", date, null));
         notes.add(new Note ("My third note", date, null));
 
-        NoteAdapter.NoteClickListener noteClickListener = (note, position) -> Toast.makeText(getApplicationContext(),
-                "you touch " + note.getTitle(), Toast.LENGTH_SHORT).show();
+        NoteAdapter.NoteClickListener noteClickListener = (note, position) -> startEditActivity(note.getTitle());
 
         NoteAdapter adapter = new NoteAdapter(this, notes, noteClickListener);
         recyclerView.setAdapter(adapter);
@@ -38,12 +37,14 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),
-                        "new note add ", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+                startEditActivity("");
             }
         });
+    }
+    private void startEditActivity(String titleVal) {
+        Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("title", titleVal);
+        startActivity(intent);
     }
 }
