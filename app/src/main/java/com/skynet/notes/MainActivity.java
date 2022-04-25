@@ -1,14 +1,17 @@
 package com.skynet.notes;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,34 +20,82 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<Note> notes = new ArrayList<>();
+    private ArrayList<Note> notes;
+    private NoteAdapter noteAdapter;
+    private RecyclerView recyclerView;
+    private Button addButton;
+    private DBAdapter dbAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Button addButton = findViewById(R.id.addButton);
-        final RecyclerView recyclerView = findViewById(R.id.NotesRecycleView);
-        String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        notes.add(new Note ("My first note", date, null));
-        notes.add(new Note ("My second note", date, null));
-        notes.add(new Note ("My third note", date, null));
+        addButton = findViewById(R.id.addButton);
+        recyclerView = findViewById(R.id.NotesRecycleView);
+        dbAdapter = new DBAdapter(this);
+        //checkDataInit();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.v("LOG: ", "Resumed");
+        dbAdapter.open();
+        notes = (ArrayList<Note>) dbAdapter.getNotes();
+        dbAdapter.close();
+        NoteAdapter.NoteClickListener noteClickListener = new NoteAdapter.NoteClickListener() {
+            @Override
+            public void NoteClick(Note note, int position) {
+                startEditActivity(note.getId());
+                Log.v("LOG: ", "short");
+            }
+            @Override
+            public boolean NoteLongClick(Note note, int position) {
+                Log.v("LOG: ", "long");
+                removeNote(position);
+                return true;
+            }
+        };
 
-        NoteAdapter.NoteClickListener noteClickListener = (note, position) -> startEditActivity(note.getTitle());
-
-        NoteAdapter adapter = new NoteAdapter(this, notes, noteClickListener);
-        recyclerView.setAdapter(adapter);
-
+        noteAdapter = new NoteAdapter(this, notes, noteClickListener);
+        recyclerView.setAdapter(noteAdapter);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startEditActivity("");
+                startEditActivity(0L);
             }
         });
     }
-    private void startEditActivity(String titleVal) {
+    private void startEditActivity(Long noteId) {
         Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("title", titleVal);
+        intent.putExtra("id", noteId);
         startActivity(intent);
     }
+    private void removeNote(int pos) {
+        final CharSequence[] items = {"Remove", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                if (item==0) {
+                    dbAdapter.open();
+                    dbAdapter.delete((notes.get(pos)).getId());
+                    dbAdapter.close();
+                    notes.remove(pos);
+                    recyclerView.removeViewAt(pos);
+                    noteAdapter.notifyItemRemoved(pos);
+                    noteAdapter.notifyItemRangeChanged(pos, notes.size());
+                }
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+    /*private void checkDataInit() {
+        dbAdapter.open();
+        if (dbAdapter.getNotes() == null) {
+            Note note = new Note (0, "No data", "0.0.0000", null, "No data added");
+            dbAdapter.open();
+            dbAdapter.insert(note);
+            dbAdapter.close();
+        }
+    }*/
 }

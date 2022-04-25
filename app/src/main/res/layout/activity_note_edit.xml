@@ -8,21 +8,22 @@
     tools:context=".NoteEditActivity"
     android:background="#DBDDDC" >
         <EditText
-            android:id="@+id/editTitle"
+            android:id="@+id/noteTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
+            android:textSize="20dp"
             android:inputType="text" />
 
         <EditText
             android:id="@+id/noteText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editTitle"
+            android:layout_below="@+id/noteTitle"
             android:ems="10"
             android:gravity="start|top"
-            android:inputType="textMultiLine"
             android:text=""
+            android:textSize="16dp"
             android:scrollbars="vertical" />
 
         <Button
