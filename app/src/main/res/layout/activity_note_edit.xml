@@ -6,7 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".NoteEditActivity"
-    android:background="#DBDDDC" >
+    android:background="#DBDDDC"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
         <EditText
             android:id="@+id/noteTitle"
             android:layout_width="match_parent"
