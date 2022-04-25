@@ -74,8 +74,9 @@ public class DBAdapter {
     public long update(Note note) {
         String whereClause = DBHelper.NOTE_ID + "=" + note.getId();
         ContentValues cv = new ContentValues();
-        cv.put(DBHelper.NOTE_TITLE, note.getText());
+        cv.put(DBHelper.NOTE_TITLE, note.getTitle());
         cv.put(DBHelper.NOTE_DATE, note.getDate());
+        cv.put(DBHelper.NOTE_TEXT, note.getText());
         return database.update(DBHelper.TABLE_NAME, cv, whereClause, null);
     }
 }

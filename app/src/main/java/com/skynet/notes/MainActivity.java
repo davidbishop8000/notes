@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         addButton = findViewById(R.id.addButton);
         recyclerView = findViewById(R.id.NotesRecycleView);
         dbAdapter = new DBAdapter(this);
-        //checkDataInit();
     }
     @Override
     public void onResume() {
@@ -89,13 +88,4 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
-    /*private void checkDataInit() {
-        dbAdapter.open();
-        if (dbAdapter.getNotes() == null) {
-            Note note = new Note (0, "No data", "0.0.0000", null, "No data added");
-            dbAdapter.open();
-            dbAdapter.insert(note);
-            dbAdapter.close();
-        }
-    }*/
 }

@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + NOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
         + NOTE_TITLE + " TEXT, " + NOTE_DATE + " TEXT, " + NOTE_TEXT + " TEXT);");
         db.execSQL("INSERT INTO " + TABLE_NAME + " (" + NOTE_TITLE + ", "
-        + NOTE_DATE + ", " + NOTE_TEXT + ") VALUES ('My firsr note', '24.04.2022', 'Hellow world!');");
+        + NOTE_DATE + ", " + NOTE_TEXT + ") VALUES ('My first note', '24.04.2022', 'Hellow world!');");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

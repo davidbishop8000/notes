@@ -26,12 +26,19 @@ public class NoteEditActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
         Bundle arguments = getIntent().getExtras();
+        noteTitle = findViewById(R.id.noteTitle);
+        noteText = findViewById(R.id.noteText);
         dbAdapter = new DBAdapter(this);
         if (arguments != null) {
             noteId = arguments.getLong("id");
         }
-        noteTitle = findViewById(R.id.noteTitle);
-        noteText = findViewById(R.id.noteText);
+        if (noteId > 0) {
+            dbAdapter.open();
+            Note note = (Note) dbAdapter.getNoteById(noteId);
+            dbAdapter.close();
+            noteTitle.setText(note.getTitle());
+            noteText.setText(note.getText());
+        }
         final Button backButton = findViewById(R.id.backButton);
         final Button saveButton = findViewById(R.id.saveButton);
         backButton.setOnClickListener(this);
