@@ -9,31 +9,40 @@
     android:background="#DBDDDC"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
+
         <EditText
             android:id="@+id/noteTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:text=""
-            android:textSize="20dp"
-            android:inputType="text" />
+            android:textSize="24sp"
+            android:background="#C9A5FB" />
+
+        <Space
+            android:id="@+id/spaceTitle"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_below="@+id/noteTitle" />
 
         <EditText
             android:id="@+id/noteText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/noteTitle"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/spaceTitle"
             android:ems="10"
             android:gravity="start|top"
+            android:scrollbars="vertical"
             android:text=""
-            android:textSize="16dp"
-            android:scrollbars="vertical" />
+            android:textSize="20sp"
+            android:background="@null" />
 
         <Button
             android:id="@+id/backButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_above="@+id/space2"
-            android:layout_toStartOf="@+id/space1"
+            android:layout_toEndOf="@+id/space1"
             android:background="@drawable/add_button_style"
             android:text="&lt;"
             android:textSize="25sp" />
@@ -43,14 +52,14 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/saveButton"/>
+            android:layout_alignParentStart="true" />
 
         <Button
             android:id="@+id/saveButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_above="@+id/space2"
-            android:layout_toLeftOf="@+id/space2"
+            android:layout_toStartOf="@+id/space2"
             android:background="@drawable/add_button_style"
             android:text="S"
             android:textSize="25sp" />

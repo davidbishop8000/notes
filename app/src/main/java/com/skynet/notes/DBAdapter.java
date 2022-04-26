@@ -39,7 +39,7 @@ public class DBAdapter {
             @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex(DBHelper.NOTE_ID));
             @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex(DBHelper.NOTE_TITLE));
             @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex(DBHelper.NOTE_DATE));
-            notes.add(new Note(id, title, date, null, ""));
+            notes.add(new Note(id, title, date, null, "", 0, 0));
         }
         cursor.close();
         return notes;
@@ -52,7 +52,9 @@ public class DBAdapter {
             @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex(DBHelper.NOTE_TITLE));
             @SuppressLint("Range") String data = cursor.getString(cursor.getColumnIndex(DBHelper.NOTE_DATE));
             @SuppressLint("Range") String text = cursor.getString(cursor.getColumnIndex(DBHelper.NOTE_TEXT));
-            note = new Note(id, title, data, null, text);
+            @SuppressLint("Range") int textColor = cursor.getInt(cursor.getColumnIndex(DBHelper.NOTE_TEXT_COLOR));
+            @SuppressLint("Range") int textSize = cursor.getInt(cursor.getColumnIndex(DBHelper.NOTE_TEXT_SIZE));
+            note = new Note(id, title, data, null, text, textColor, textSize);
         }
         cursor.close();
         return note;
@@ -62,6 +64,8 @@ public class DBAdapter {
         cv.put(DBHelper.NOTE_TITLE, note.getTitle());
         cv.put(DBHelper.NOTE_DATE, note.getDate());
         cv.put(DBHelper.NOTE_TEXT, note.getText());
+        cv.put(DBHelper.NOTE_TEXT_COLOR, note.getTextColor());
+        cv.put(DBHelper.NOTE_TEXT_SIZE, note.getTextSize());
         return database.insert(DBHelper.TABLE_NAME, null, cv);
     }
 
@@ -77,6 +81,8 @@ public class DBAdapter {
         cv.put(DBHelper.NOTE_TITLE, note.getTitle());
         cv.put(DBHelper.NOTE_DATE, note.getDate());
         cv.put(DBHelper.NOTE_TEXT, note.getText());
+        cv.put(DBHelper.NOTE_TEXT_COLOR, note.getTextColor());
+        cv.put(DBHelper.NOTE_TEXT_SIZE, note.getTextSize());
         return database.update(DBHelper.TABLE_NAME, cv, whereClause, null);
     }
 }

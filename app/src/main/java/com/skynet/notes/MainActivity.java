@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Log.v("LOG: ", "Resumed");
         dbAdapter.open();
         notes = (ArrayList<Note>) dbAdapter.getNotes();
+        Collections.reverse(notes);
         dbAdapter.close();
         NoteAdapter.NoteClickListener noteClickListener = new NoteAdapter.NoteClickListener() {
             @Override
